@@ -10,8 +10,9 @@ class DataReader {
     List<String> attNames;
     List<Instance> allInstances;
 
-    private void readDataFile(String fname) {
-        /* format of names file:
+    public void readDataFile(String fname) {
+        /*
+         * format of names file:
          * names of attributes (the first one should be the class/category)
          * category followed by true's and false's for each instance
          */
@@ -34,7 +35,7 @@ class DataReader {
 
             categoryNames = new HashSet<>();
             for (Instance i : allInstances) {
-                categoryNames.add(i.category);
+                categoryNames.add(i.getCategory());
             }
             numCategories = categoryNames.size();
             System.out.println(numCategories + " categories");
@@ -58,35 +59,11 @@ class DataReader {
         return instances;
     }
 
-    private static class Instance {
+    public List<Instance> getInstances() {
+        return allInstances;
+    }
 
-        private final String category;
-        private final List<Boolean> vals;
-
-        public Instance(String cat, Scanner s) {
-            category = cat;
-            vals = new ArrayList<>();
-            while (s.hasNextBoolean()) {
-                vals.add(s.nextBoolean());
-            }
-        }
-
-        public boolean getAtt(int index) {
-            return vals.get(index);
-        }
-
-        public String getCategory() {
-            return category;
-        }
-
-        public String toString() {
-            StringBuilder ans = new StringBuilder(category);
-            ans.append(" ");
-            for (Boolean val : vals) {
-                ans.append(val ? "true " : "false ");
-            }
-            return ans.toString();
-        }
-
+    public List<String> getALlAtributes() {
+        return attNames;
     }
 }
