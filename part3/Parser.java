@@ -33,16 +33,14 @@ public class Parser {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        // print each of the instances in the list and say im here
         for (Instance i : instances) {
             System.out.println(i);
         }
 
         // train the perceptron
         Perceptron p = new Perceptron(instances, attributes);
-        p.train();
-        // test the perceptron
-        p.test();
+        double[] weights = p.train();
+        p.test(instances, weights);
     }
 
 
