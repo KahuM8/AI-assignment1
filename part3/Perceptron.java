@@ -4,14 +4,12 @@ import java.util.*;
 
 public class Perceptron {
     private List<Instance> instances;
-    private List<String> attributes;
 
 
 
     // constructor
-    public Perceptron(List<Instance> instances, List<String> attributes) {
+    public Perceptron(List<Instance> instances) {
         this.instances = instances;
-        this.attributes = attributes;
     }
 
     public double[] train() {

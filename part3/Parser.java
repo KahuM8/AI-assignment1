@@ -13,13 +13,9 @@ public class Parser {
         // read in the file ionosphere.data
         Scanner sc;
         List<Instance> instances = new ArrayList<>();
-        List<String> attributes = new ArrayList<>();
         try {
             sc = new Scanner(new File("part3/ionosphere.data"));
-            Scanner l1 = new Scanner(sc.nextLine());
-            while (l1.hasNext()) {
-                attributes.add(l1.next());
-            }
+            sc.nextLine();
             while (sc.hasNextLine()) {
                 Scanner line = new Scanner(sc.nextLine());
                 List<Double> features = new ArrayList<>();
@@ -38,7 +34,7 @@ public class Parser {
         }
 
         // train the perceptron
-        Perceptron p = new Perceptron(instances, attributes);
+        Perceptron p = new Perceptron(instances);
         double[] weights = p.train();
         p.test(instances, weights);
     }
