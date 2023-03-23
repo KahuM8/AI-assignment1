@@ -1,3 +1,3 @@
 public interface DTTree {
-    public String toString(String prefix);
+    public void report(String indent);
 }

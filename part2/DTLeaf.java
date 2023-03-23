@@ -4,7 +4,7 @@ public class DTLeaf extends DTNode {
     private double prob;
 
     public DTLeaf(String category, double probibility) {
-        super(null, null, null);
+        super(category, null, null);
         this.category = category;
         this.prob = probibility;
     }
@@ -17,7 +17,10 @@ public class DTLeaf extends DTNode {
         this.category = category;
     }
 
-    public String toString(String prefix) {
-        return prefix + "Class " + category + ", prob =  " + prob;
-    }
+    public void report(String indent){
+        if (prob==0){ //Error-checking
+        System.out.printf("%sUnknown%n", indent);
+        }else{
+        System.out.printf("%sClass %s, prob=%.2f%n", indent, category, prob);
+        }}
 }

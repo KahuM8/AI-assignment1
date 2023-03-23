@@ -6,7 +6,7 @@ public class DTBuilder {
     // constructor
     public DTBuilder(Set<Instance> allInstances, List<String> attriburtes) {
         this.allInstances = allInstances;
-        buildTree(allInstances, attriburtes);
+        
     }
 
     public DTNode buildTree(Set<Instance> instances, List<String> attributes) {
@@ -24,7 +24,7 @@ public class DTBuilder {
         Set<Instance> bestTSet = new HashSet<>();
         Set<Instance> BestFSet = new HashSet<>();
         String bestATT = "";
-        double bestImp = Double.MAX_VALUE;
+        double bestImp = Double.POSITIVE_INFINITY;
         for (int i = 0; i < attriburtes.size(); i++) {
             Set<Instance> trueInstances = new HashSet<>();
             Set<Instance> falseInstances = new HashSet<>();
@@ -49,39 +49,34 @@ public class DTBuilder {
         return new DTNode(bestATT, left, right);
     }
 
-    // overall most common node calc
     public double mostCatoagories(Set<Instance> instances) {
         int liveC = 0;
         int dieC = 0;
         for (Instance instance : instances) {
             if (instance.getCategory().equals("live")) {
                 liveC++;
-                break;
+            } else {
+                dieC++;
             }
-            dieC++;
         }
-        return liveC > dieC ? liveC / instances.size() : dieC / instances.size();
-
+        return liveC > dieC ? (double) liveC / instances.size() : (double) dieC / instances.size();
     }
 
-    // is pure
     public boolean isPure(Set<Instance> instances) {
-        String category = null;
+        String category = instances.iterator().next().getCategory();
         for (Instance instance : instances) {
-            if (category == null) {
-                category = instance.getCategory();
-            } else if (!category.equals(instance.getCategory())) {
+            if (!category.equals(instance.getCategory())) {
                 return false;
             }
         }
         return true;
-
     }
 
     public double computeImpur(Set<Instance> trues, Set<Instance> falses) {
-        double dt = (trues.size()) / (trues.size() + falses.size());
+        double dt = ((double) trues.size()) / (trues.size() + falses.size());
         double df = 1.0 - dt;
         return dt * computePurity(trues) + df * computePurity(falses);
+
 
     }
 
@@ -96,9 +91,10 @@ public class DTBuilder {
                 continue;
             }
             catTotals[1]++;
+            
         }
-        return catTotals[0] / instances.size() + catTotals[1] / instances.size();
 
+        return ((double) catTotals[0] / instances.size()) * ((double) catTotals[1] / instances.size());
     }
 
 }

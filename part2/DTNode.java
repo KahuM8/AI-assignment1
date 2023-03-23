@@ -35,9 +35,12 @@ public class DTNode implements DTTree {
         this.no = no;
     }
 
-    public String toString(String prefix) {
-        return prefix + " " + attribute + " = yes: " + yes.toString(prefix + " ") + " ";
-    }
+    public void report(String indent){
+        System.out.printf("%s%s = True:%n", indent, attribute);
+        yes.report(indent+"\t");
+        System.out.printf("%s%s = False:%n", indent, attribute);
+        no.report(indent+"\t");
+        }
 
     public void addChild(String value, DTNode child) {
         if (value.equals("yes")) {

@@ -6,6 +6,7 @@ public class DT {
         DT dt = new DT();
         dt.run();
     }
+    DTNode root;
 
     private void run() {
         DataReader dr = new DataReader();
@@ -15,6 +16,12 @@ public class DT {
         Set<Instance> instanceSet = new HashSet<>(instances);
 
         DTBuilder dtb = new DTBuilder(instanceSet, attributes);
+        root = dtb.buildTree(instanceSet, attributes);
+        root.report("");
+        
+
+   
+
 
         // print the tree
 
