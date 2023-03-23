@@ -29,6 +29,7 @@ class DataReader {
             numAtts = attNames.size();
             System.out.println(numAtts + " attributes");
 
+
             allInstances = readInstances(din);
             din.close();
 

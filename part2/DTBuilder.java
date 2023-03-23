@@ -17,10 +17,8 @@ public class DTBuilder {
         if (instances.isEmpty()) {
             return new DTLeaf(mostCat(instances), mostCatoagories(allInstances));
         }
-        if (isPure(instances)) {
+        if (attributes.isEmpty() || isPure(instances)) {
             return new DTLeaf(instances.iterator().next().getCategory(), 1);
-        } else if (attributes.isEmpty()) {
-            return new DTLeaf(mostCat(instances), mostCatoagories(instances));
         } else {
             return chooseNode(instances, attributes);
         }
@@ -118,6 +116,7 @@ public class DTBuilder {
             catTotals[1]++;
 
         }
+
         return ((double) catTotals[0] / instances.size())
                 * ((double) catTotals[1] / instances.size());
     }

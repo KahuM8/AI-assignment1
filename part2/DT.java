@@ -37,21 +37,12 @@ public class DT {
         testinst = dTest.getInstances();
 
 
-        DTBuilder dtb2 = new DTBuilder(testinstSet, testAtts);
-        testRoot = dtb2.buildTree(new HashSet<>(testinst), testAtts);
-
-        // print all test attributes
-        for (String s : testAtts) {
-            System.out.println(s);
-        }
-
-
 
         // make predictions
         int correct = 0;
         int total = 0;
         for (Instance instance : testinst) {
-            String prediction = getPrediction(instance, testRoot);
+            String prediction = getPrediction(instance, root);
             if (prediction.equals(instance.getCategory())) {
                 correct++;
             }
@@ -62,7 +53,7 @@ public class DT {
     }
 
     public String getPrediction(Instance testCase, DTNode root) {
-        if (testRoot instanceof DTLeaf) {
+        if (root instanceof DTLeaf) {
             return ((DTLeaf) root).getCategory();
         } else {
             DTNode internalNode = (DTNode) root;
@@ -74,7 +65,6 @@ public class DT {
                     break;
                 }
             }
-            System.out.println("attIndex: " + attIndex);
             boolean attValue = testCase.getAtt(attIndex);
             if (attValue) {
                 return getPrediction(testCase, internalNode.getYes());
