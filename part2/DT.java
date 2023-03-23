@@ -22,51 +22,66 @@ public class DT {
     private void run() {
         DataReader dTrain = new DataReader();
         dTrain.readDataFile("part2/hepatitis-training");
-        DataReader dTest = new DataReader();
         Trainattributes = dTrain.getALlAtributes();
         Traininstances = dTrain.getInstances();
         TraininstanceSet = new HashSet<>(Traininstances);
 
-        dTest.readDataFile("part2/hepatitis-test");
-        testAtts = dTrain.getALlAtributes();
-        testinst = dTrain.getInstances();
-        testinstSet = new HashSet<>(testinst);
 
         DTBuilder dtb = new DTBuilder(TraininstanceSet, Trainattributes);
         root = dtb.buildTree(TraininstanceSet, Trainattributes);
         root.report("");
 
-        DTBuilder dtbTest = new DTBuilder(testinstSet, testAtts);
-        testRoot = dtbTest.buildTree(testinstSet, testAtts);
-        testRoot.report("");
+        DataReader dTest = new DataReader();
+        dTest.readDataFile("part2/hepatitis-test");
+        testAtts = dTest.getALlAtributes();
+        testinst = dTest.getInstances();
 
-        int count = 0;
-        for (Instance instance : dTest.allInstances) {
-            String makePred = getPrediction(instance, testRoot);
-            if (makePred.equals(instance.getCategory())) {
-                count++;
-            }
+
+        DTBuilder dtb2 = new DTBuilder(testinstSet, testAtts);
+        testRoot = dtb2.buildTree(new HashSet<>(testinst), testAtts);
+
+        // print all test attributes
+        for (String s : testAtts) {
+            System.out.println(s);
         }
-        System.out.println("accuracy = " + count / dTest.allInstances.size());
 
-        // print the tree
 
+
+        // make predictions
+        int correct = 0;
+        int total = 0;
+        for (Instance instance : testinst) {
+            String prediction = getPrediction(instance, testRoot);
+            if (prediction.equals(instance.getCategory())) {
+                correct++;
+            }
+            total++;
+        }
+        System.out.println("Correct: " + correct + " Total: " + total);
+        System.out.println("Accuracy: " + (double) correct / total);
     }
 
-    public String getPrediction(Instance testCase, DTNode testRoot) {
-        DTNode current = testRoot;
-        while (!(current instanceof DTLeaf)) {
-            String attribute = current.getATT();
-            int index = Trainattributes.indexOf(attribute);
-            if (index >= 0) {
-                boolean val = testCase.getAtt(index);
-                if (val) {
-                    current = current.getYes();
-                } else {
-                    current = current.getNo();
+    public String getPrediction(Instance testCase, DTNode root) {
+        if (testRoot instanceof DTLeaf) {
+            return ((DTLeaf) root).getCategory();
+        } else {
+            DTNode internalNode = (DTNode) root;
+            String attName = internalNode.getATT();
+            int attIndex = -1;
+            for (int i = 0; i < testAtts.size(); i++) {
+                if (testAtts.get(i).equals(attName)) {
+                    attIndex = i;
+                    break;
                 }
             }
+            System.out.println("attIndex: " + attIndex);
+            boolean attValue = testCase.getAtt(attIndex);
+            if (attValue) {
+                return getPrediction(testCase, internalNode.getYes());
+            } else {
+                return getPrediction(testCase, internalNode.getNo());
+            }
         }
-        return current.getATT();
     }
+
 }

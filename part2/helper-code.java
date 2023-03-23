@@ -12,8 +12,7 @@ class DataReader {
 
     public void readDataFile(String fname) {
         /*
-         * format of names file:
-         * names of attributes (the first one should be the class/category)
+         * format of names file: names of attributes (the first one should be the class/category)
          * category followed by true's and false's for each instance
          */
         System.out.println("Reading data from file " + fname);
@@ -40,9 +39,9 @@ class DataReader {
             numCategories = categoryNames.size();
             System.out.println(numCategories + " categories");
 
-            for (Instance i : allInstances) {
-                System.out.println(i);
-            }
+            // for (Instance i : allInstances) {
+            // System.out.println(i);
+            // }
         } catch (IOException e) {
             throw new RuntimeException("Data File caused IO exception");
         }

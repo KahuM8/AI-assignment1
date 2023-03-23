@@ -10,15 +10,17 @@ public class DTBuilder {
     public DTBuilder(Set<Instance> allInstances, List<String> attriburtes) {
         this.allInstances = allInstances;
         this.allAtts = attriburtes;
-        
+
     }
 
     public DTNode buildTree(Set<Instance> instances, List<String> attributes) {
         if (instances.isEmpty()) {
             return new DTLeaf(mostCat(instances), mostCatoagories(allInstances));
         }
-        if (attributes.isEmpty() || isPure(instances)) {
+        if (isPure(instances)) {
             return new DTLeaf(instances.iterator().next().getCategory(), 1);
+        } else if (attributes.isEmpty()) {
+            return new DTLeaf(mostCat(instances), mostCatoagories(instances));
         } else {
             return chooseNode(instances, attributes);
         }
@@ -48,7 +50,7 @@ public class DTBuilder {
             }
         }
         attriburtes.remove(bestATT);
-        
+
         DTNode left = buildTree(bestTSet, attriburtes);
         DTNode right = buildTree(BestFSet, attriburtes);
         return new DTNode(bestATT, left, right);
@@ -68,7 +70,7 @@ public class DTBuilder {
     }
 
 
-    public String mostCat(Set<Instance> instances){
+    public String mostCat(Set<Instance> instances) {
         int liveC = 0;
         int dieC = 0;
         for (Instance instance : instances) {
@@ -78,7 +80,9 @@ public class DTBuilder {
                 dieC++;
             }
         }
-        if(liveC > dieC){return "live";}
+        if (liveC > dieC) {
+            return "live";
+        }
         return "die";
     }
 
@@ -96,12 +100,12 @@ public class DTBuilder {
         double dt = ((double) trues.size()) / (trues.size() + falses.size());
         double df = 1.0 - dt;
         // System.out.println("purity = " + dt * computePurity(trues) + df * computePurity(falses));
-        return dt * computePurity(trues) + df * computePurity(falses);
+        return dt * calcADratio(trues) + df * calcADratio(falses);
 
 
     }
 
-    public double computePurity(Set<Instance> instances) {
+    public double calcADratio(Set<Instance> instances) {
         if (instances.isEmpty()) {
             return 0;
         }
@@ -112,10 +116,10 @@ public class DTBuilder {
                 continue;
             }
             catTotals[1]++;
-            
-        }
 
-        return ((double) catTotals[0] / instances.size()) * ((double) catTotals[1] / instances.size());
+        }
+        return ((double) catTotals[0] / instances.size())
+                * ((double) catTotals[1] / instances.size());
     }
 
 }

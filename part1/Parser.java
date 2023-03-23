@@ -102,8 +102,6 @@ public class Parser {
                 maxIndex = i;
             }
         }
-
-        System.out.println("Predicted Type: " + (maxIndex + 1));
         return maxIndex;
     }
 
@@ -143,8 +141,10 @@ public class Parser {
         }
         for (int i = 0; i < testWine.size(); i++) {
             for (int j = 0; j < testWine.get(i).attributes().length; j++) {
-                trainWine.get(i).attributes()[j] = (trainWine.get(i).attributes()[j] / (maxes[j] - mins[j]));
-                testWine.get(i).attributes()[j] = (testWine.get(i).attributes()[j] / (maxes[j] - mins[j]));
+                trainWine.get(i).attributes()[j] =
+                        (trainWine.get(i).attributes()[j] / (maxes[j] - mins[j]));
+                testWine.get(i).attributes()[j] =
+                        (testWine.get(i).attributes()[j] / (maxes[j] - mins[j]));
             }
         }
     }

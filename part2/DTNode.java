@@ -11,25 +11,25 @@ public class DTNode implements DTTree {
         this.no = no;
     }
 
-   
 
-    public void report(String indent){
+
+    public void report(String indent) {
         System.out.printf("%s%s = True:%n", indent, attribute);
-        yes.report(indent+"\t");
+        yes.report(indent + "|\t");
         System.out.printf("%s%s = False:%n", indent, attribute);
-        no.report(indent+"\t");
-        }
+        no.report(indent + "|\t");
+    }
 
 
-    public String getATT(){
+    public String getATT() {
         return this.attribute;
     }
 
-    public DTNode getYes(){
+    public DTNode getYes() {
         return this.yes;
     }
 
-    public DTNode getNo(){
+    public DTNode getNo() {
         return this.no;
     }
 

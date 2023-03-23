@@ -17,10 +17,11 @@ public class DTLeaf extends DTNode {
         this.category = category;
     }
 
-    public void report(String indent){
-        if (prob==0){ //Error-checking
-        System.out.printf("%sUnknown%n", indent);
-        }else{
-        System.out.printf("%sClass %s, prob=%.2f%n", indent, category, prob);
-        }}
+    public void report(String indent) {
+        if (prob == 0) { // Error-checking
+            System.out.printf("%sUnknown%n", indent);
+        } else {
+            System.out.printf("%sClass %s, prob=%.2f%n", indent, category, prob);
+        }
+    }
 }
