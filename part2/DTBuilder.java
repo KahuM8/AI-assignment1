@@ -2,16 +2,20 @@ import java.util.*;
 
 public class DTBuilder {
     Set<Instance> allInstances;
+    List<String> allAtts;
+    int correctPreds = 0;
+    int totalPreds = 0;
 
     // constructor
     public DTBuilder(Set<Instance> allInstances, List<String> attriburtes) {
         this.allInstances = allInstances;
+        this.allAtts = attriburtes;
         
     }
 
     public DTNode buildTree(Set<Instance> instances, List<String> attributes) {
         if (instances.isEmpty()) {
-            return new DTLeaf(null, mostCatoagories(allInstances));
+            return new DTLeaf(mostCat(instances), mostCatoagories(allInstances));
         }
         if (attributes.isEmpty() || isPure(instances)) {
             return new DTLeaf(instances.iterator().next().getCategory(), 1);
@@ -44,6 +48,7 @@ public class DTBuilder {
             }
         }
         attriburtes.remove(bestATT);
+        
         DTNode left = buildTree(bestTSet, attriburtes);
         DTNode right = buildTree(BestFSet, attriburtes);
         return new DTNode(bestATT, left, right);
@@ -62,6 +67,21 @@ public class DTBuilder {
         return liveC > dieC ? (double) liveC / instances.size() : (double) dieC / instances.size();
     }
 
+
+    public String mostCat(Set<Instance> instances){
+        int liveC = 0;
+        int dieC = 0;
+        for (Instance instance : instances) {
+            if (instance.getCategory().equals("live")) {
+                liveC++;
+            } else {
+                dieC++;
+            }
+        }
+        if(liveC > dieC){return "live";}
+        return "die";
+    }
+
     public boolean isPure(Set<Instance> instances) {
         String category = instances.iterator().next().getCategory();
         for (Instance instance : instances) {
@@ -75,6 +95,7 @@ public class DTBuilder {
     public double computeImpur(Set<Instance> trues, Set<Instance> falses) {
         double dt = ((double) trues.size()) / (trues.size() + falses.size());
         double df = 1.0 - dt;
+        // System.out.println("purity = " + dt * computePurity(trues) + df * computePurity(falses));
         return dt * computePurity(trues) + df * computePurity(falses);
 
 

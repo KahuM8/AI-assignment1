@@ -11,29 +11,7 @@ public class DTNode implements DTTree {
         this.no = no;
     }
 
-    public String getAttribute() {
-        return attribute;
-    }
-
-    public DTNode getYes() {
-        return yes;
-    }
-
-    public DTNode getNo() {
-        return no;
-    }
-
-    public void setAttribute(String attribute) {
-        this.attribute = attribute;
-    }
-
-    public void setYes(DTNode yes) {
-        this.yes = yes;
-    }
-
-    public void setNo(DTNode no) {
-        this.no = no;
-    }
+   
 
     public void report(String indent){
         System.out.printf("%s%s = True:%n", indent, attribute);
@@ -42,20 +20,18 @@ public class DTNode implements DTTree {
         no.report(indent+"\t");
         }
 
-    public void addChild(String value, DTNode child) {
-        if (value.equals("yes")) {
-            yes = child;
-        } else {
-            no = child;
-        }
+
+    public String getATT(){
+        return this.attribute;
     }
 
-    public DTNode getChild(String value) {
-        if (value.equals("yes")) {
-            return yes;
-        } else {
-            return no;
-        }
+    public DTNode getYes(){
+        return this.yes;
     }
+
+    public DTNode getNo(){
+        return this.no;
+    }
+
 
 }
