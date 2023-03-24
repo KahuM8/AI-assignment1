@@ -15,10 +15,14 @@ public class DTBuilder {
 
     public DTNode buildTree(Set<Instance> instances, List<String> attributes) {
         if (instances.isEmpty()) {
+            System.out.println("Empty set");
             return new DTLeaf(mostCat(instances), mostCatoagories(allInstances));
-        }
-        if (attributes.isEmpty() || isPure(instances)) {
+        } else if (isPure(instances)) {
             return new DTLeaf(instances.iterator().next().getCategory(), 1);
+        }
+
+        else if (attributes.isEmpty()) {
+            return new DTLeaf(mostCat(instances), mostCatoagories(allInstances));
         } else {
             return chooseNode(instances, attributes);
         }
@@ -49,8 +53,8 @@ public class DTBuilder {
         }
         attriburtes.remove(bestATT);
 
-        DTNode left = buildTree(bestTSet, attriburtes);
-        DTNode right = buildTree(BestFSet, attriburtes);
+        DTNode left = buildTree(bestTSet, new ArrayList<>(attriburtes));
+        DTNode right = buildTree(BestFSet, new ArrayList<>(attriburtes));
         return new DTNode(bestATT, left, right);
     }
 
@@ -66,7 +70,6 @@ public class DTBuilder {
         }
         return liveC > dieC ? (double) liveC / instances.size() : (double) dieC / instances.size();
     }
-
 
     public String mostCat(Set<Instance> instances) {
         int liveC = 0;
@@ -97,9 +100,9 @@ public class DTBuilder {
     public double computeImpur(Set<Instance> trues, Set<Instance> falses) {
         double dt = ((double) trues.size()) / (trues.size() + falses.size());
         double df = 1.0 - dt;
-        // System.out.println("purity = " + dt * computePurity(trues) + df * computePurity(falses));
+        // System.out.println("purity = " + dt * computePurity(trues) + df *
+        // computePurity(falses));
         return dt * calcADratio(trues) + df * calcADratio(falses);
-
 
     }
 

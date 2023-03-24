@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-
 public class Parser {
-
-
 
     public static void main(String[] args) {
         // read in the file ionosphere.data
@@ -29,15 +26,10 @@ public class Parser {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        for (Instance i : instances) {
-            System.out.println(i);
-        }
 
         // train the perceptron
         Perceptron p = new Perceptron(instances);
-        double[] weights = p.train();
-        p.test(instances, weights);
+        p.train();
     }
-
 
 }

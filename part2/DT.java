@@ -26,7 +26,6 @@ public class DT {
         Traininstances = dTrain.getInstances();
         TraininstanceSet = new HashSet<>(Traininstances);
 
-
         DTBuilder dtb = new DTBuilder(TraininstanceSet, Trainattributes);
         root = dtb.buildTree(TraininstanceSet, Trainattributes);
         root.report("");
@@ -35,8 +34,6 @@ public class DT {
         dTest.readDataFile("part2/hepatitis-test");
         testAtts = dTest.getALlAtributes();
         testinst = dTest.getInstances();
-
-
 
         // make predictions
         int correct = 0;

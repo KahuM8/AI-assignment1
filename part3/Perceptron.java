@@ -5,42 +5,56 @@ import java.util.*;
 public class Perceptron {
     private List<Instance> instances;
 
-
-
     // constructor
     public Perceptron(List<Instance> instances) {
         this.instances = instances;
     }
 
-    public double[] train() {
+    public void train() {
         double[] weights = new double[35];
         for (int i = 0; i < weights.length; i++) {
-            weights[i] = Math.random();
+            weights[i] = 0;
         }
-        double learningRate = 0.1;
-        int numEpochs = 200;
-        for (int epoch = 1; epoch <= numEpochs; epoch++) {
-            double totalError = 0.0;
+        double learningRate = 0.2;
+        int count = 0;
+        while (test(instances, weights) < 0.95 && count < 10000) {
             for (Instance instance : instances) {
                 double output = weights[0]; // Bias term
                 for (int i = 0; i < 34; i++) {
                     output += weights[i + 1] * instance.getFeature(i);
                 }
-                double target = instance.getCategory().equals("g") ? 1.0 : -1.0;
-                double error = target - output;
-                totalError += Math.abs(error);
-                weights[0] += learningRate * error; // Update the bias
-                for (int i = 0; i < 34; i++) {
-                    weights[i + 1] += learningRate * error * instance.getFeature(i); // Update the
-                                                                                     // weights
+                double y = output > 0 ? 1 : 0;
+                double d = instance.getCategory().equals("g") ? 1 : 0;
+
+                if (y == 0 && d == 1) {
+                    weights[0] += learningRate;
+                    for (int i = 0; i < 34; i++) {
+                        weights[i + 1] += instance.getFeature(i) * learningRate;
+                    }
                 }
+
+                if (y == 1 && d == 0) {
+                    weights[0] -= learningRate;
+                    for (int i = 0; i < 34; i++) {
+                        weights[i + 1] -= instance.getFeature(i) * learningRate;
+                    }
+                }
+
+                if (test(instances, weights) > 0.95) {
+                    // System.out.println("Epoch " + count + ": bias = " + weights[0]);
+                    break;
+                }
+
+                // System.out.println("Epoch " + count + ": bias = " + weights[0]);
             }
-            System.out.println("Epoch " + epoch + ": total error = " + totalError);
+            count++;
         }
-        return weights;
+        System.out.println("Epoch " + count + ": bias = " + weights[0]);
+
+        System.out.println("Accuracy: " + test(instances, weights));
     }
 
-    public void test(List<Instance> testInstances, double[] weights) {
+    public double test(List<Instance> testInstances, double[] weights) {
         int numCorrect = 0;
         for (Instance instance : testInstances) {
             double output = weights[0]; // Bias term
@@ -52,7 +66,9 @@ public class Perceptron {
                 numCorrect++;
             }
         }
-        double accuracy = (double) numCorrect / testInstances.size();
-        System.out.println("Accuracy on test set: " + accuracy);
+        // System.out.println("Accuracy: " + (double) numCorrect /
+        // testInstances.size());
+        return (double) numCorrect / testInstances.size();
+
     }
 }
