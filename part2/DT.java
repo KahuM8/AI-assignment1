@@ -27,7 +27,7 @@ public class DT {
         TraininstanceSet = new HashSet<>(Traininstances);
 
         DTBuilder dtb = new DTBuilder(TraininstanceSet, Trainattributes);
-        root = dtb.buildTree(TraininstanceSet, Trainattributes);
+        root = dtb.buildTree(TraininstanceSet, new ArrayList<>(Trainattributes));
         root.report("");
 
         DataReader dTest = new DataReader();
@@ -55,13 +55,7 @@ public class DT {
         } else {
             DTNode internalNode = (DTNode) root;
             String attName = internalNode.getATT();
-            int attIndex = -1;
-            for (int i = 0; i < testAtts.size(); i++) {
-                if (testAtts.get(i).equals(attName)) {
-                    attIndex = i;
-                    break;
-                }
-            }
+            int attIndex = testAtts.indexOf(attName);
             boolean attValue = testCase.getAtt(attIndex);
             if (attValue) {
                 return getPrediction(testCase, internalNode.getYes());

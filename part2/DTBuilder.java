@@ -16,13 +16,13 @@ public class DTBuilder {
     public DTNode buildTree(Set<Instance> instances, List<String> attributes) {
         if (instances.isEmpty()) {
             System.out.println("Empty set");
-            return new DTLeaf(mostCat(instances), mostCatoagories(allInstances));
+            return new DTLeaf(mostCat(allInstances), mostCatoagories(allInstances));
         } else if (isPure(instances)) {
             return new DTLeaf(instances.iterator().next().getCategory(), 1);
         }
 
         else if (attributes.isEmpty()) {
-            return new DTLeaf(mostCat(instances), mostCatoagories(allInstances));
+            return new DTLeaf(mostCat(instances), mostCatoagories(instances));
         } else {
             return chooseNode(instances, attributes);
         }
@@ -33,10 +33,14 @@ public class DTBuilder {
         Set<Instance> BestFSet = new HashSet<>();
         String bestATT = "";
         double bestImp = Double.POSITIVE_INFINITY;
-        for (int i = 0; i < attriburtes.size(); i++) {
+        for (int i = 0; i < allAtts.size(); i++) {
+            if (!attriburtes.contains(allAtts.get(i))) {
+                continue;
+            }
             Set<Instance> trueInstances = new HashSet<>();
             Set<Instance> falseInstances = new HashSet<>();
             for (Instance instance : instances) {
+
                 if (instance.getAtt(i)) {
                     trueInstances.add(instance);
                     continue;
@@ -44,9 +48,9 @@ public class DTBuilder {
                 falseInstances.add(instance);
             }
             double impur = computeImpur(trueInstances, falseInstances);
-            if (impur < bestImp) {
+            if (impur <= bestImp) {
                 bestImp = impur;
-                bestATT = attriburtes.get(i);
+                bestATT = allAtts.get(i);
                 bestTSet = trueInstances;
                 BestFSet = falseInstances;
             }
@@ -100,8 +104,6 @@ public class DTBuilder {
     public double computeImpur(Set<Instance> trues, Set<Instance> falses) {
         double dt = ((double) trues.size()) / (trues.size() + falses.size());
         double df = 1.0 - dt;
-        // System.out.println("purity = " + dt * computePurity(trues) + df *
-        // computePurity(falses));
         return dt * calcADratio(trues) + df * calcADratio(falses);
 
     }
