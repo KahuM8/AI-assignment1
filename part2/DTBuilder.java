@@ -15,13 +15,10 @@ public class DTBuilder {
 
     public DTNode buildTree(Set<Instance> instances, List<String> attributes) {
         if (instances.isEmpty()) {
-            System.out.println("Empty set");
             return new DTLeaf(mostCat(allInstances), mostCatoagories(allInstances));
         } else if (isPure(instances)) {
             return new DTLeaf(instances.iterator().next().getCategory(), 1);
-        }
-
-        else if (attributes.isEmpty()) {
+        } else if (attributes.isEmpty()) {
             return new DTLeaf(mostCat(instances), mostCatoagories(instances));
         } else {
             return chooseNode(instances, attributes);

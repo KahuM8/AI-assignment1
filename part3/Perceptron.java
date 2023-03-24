@@ -13,9 +13,9 @@ public class Perceptron {
     public void train() {
         double[] weights = new double[35];
         for (int i = 0; i < weights.length; i++) {
-            weights[i] = 0;
+            weights[i] = Math.random();
         }
-        double learningRate = 0.2;
+        double learningRate = 0.1;
         int count = 0;
         while (test(instances, weights) < 0.95 && count < 10000) {
             for (Instance instance : instances) {
@@ -45,7 +45,10 @@ public class Perceptron {
                     break;
                 }
 
-                // System.out.println("Epoch " + count + ": bias = " + weights[0]);
+            }
+            if (count % 20 == 0) {
+                System.out.println(
+                        "Epoch " + count + ": bias = " + weights[0] + " Accuracy: " + test(instances, weights));
             }
             count++;
         }
@@ -66,8 +69,6 @@ public class Perceptron {
                 numCorrect++;
             }
         }
-        // System.out.println("Accuracy: " + (double) numCorrect /
-        // testInstances.size());
         return (double) numCorrect / testInstances.size();
 
     }
