@@ -41,7 +41,6 @@ public class Perceptron {
                 }
 
                 if (test(instances, weights) > 0.95) {
-                    // System.out.println("Epoch " + count + ": bias = " + weights[0]);
                     break;
                 }
 
