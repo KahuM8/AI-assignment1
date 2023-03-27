@@ -1,8 +1,5 @@
-package part3;
-
 
 import java.util.List;
-
 
 public class Instance {
     private String category;

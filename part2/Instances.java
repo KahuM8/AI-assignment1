@@ -1,11 +1,11 @@
 import java.util.*;
 
-public class Instance {
+public class Instances {
 
     private final String category;
     private final List<Boolean> vals;
 
-    public Instance(String cat, Scanner s) {
+    public Instances(String cat, Scanner s) {
         category = cat;
         vals = new ArrayList<>();
         while (s.hasNextBoolean()) {

@@ -1,4 +1,3 @@
-package part3;
 
 import java.util.*;
 
@@ -70,7 +69,6 @@ public class Perceptron {
         return (double) numCorrect / testInstances.size();
 
     }
-
 
     // checking something with git 2
 

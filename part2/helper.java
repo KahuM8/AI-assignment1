@@ -2,18 +2,18 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-
-class DataReader {
+public class helper {
     // some bits of java code that you may use if you wish.
     int numCategories;
     int numAtts;
     Set<String> categoryNames;
     List<String> attNames;
-    List<Instance> allInstances;
+    List<Instances> allInstances;
 
     public void readDataFile(String fname) {
         /*
-         * format of names file: names of attributes (the first one should be the class/category)
+         * format of names file: names of attributes (the first one should be the
+         * class/category)
          * category followed by true's and false's for each instance
          */
         System.out.println("Reading data from file " + fname);
@@ -30,12 +30,11 @@ class DataReader {
             numAtts = attNames.size();
             System.out.println(numAtts + " attributes");
 
-
             allInstances = readInstances(din);
             din.close();
 
             categoryNames = new HashSet<>();
-            for (Instance i : allInstances) {
+            for (Instances i : allInstances) {
                 categoryNames.add(i.getCategory());
             }
             numCategories = categoryNames.size();
@@ -49,18 +48,18 @@ class DataReader {
         }
     }
 
-    private List<Instance> readInstances(Scanner din) {
+    public List<Instances> readInstances(Scanner din) {
         /* instance = classname and space separated attribute values */
-        List<Instance> instances = new ArrayList<>();
+        List<Instances> instances = new ArrayList<>();
         while (din.hasNext()) {
             Scanner line = new Scanner(din.nextLine());
-            instances.add(new Instance(line.next(), line));
+            instances.add(new Instances(line.next(), line));
         }
         System.out.println("Read " + instances.size() + " instances");
         return instances;
     }
 
-    public List<Instance> getInstances() {
+    public List<Instances> getInstances() {
         return allInstances;
     }
 

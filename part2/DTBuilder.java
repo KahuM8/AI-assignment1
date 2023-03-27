@@ -1,19 +1,19 @@
 import java.util.*;
 
 public class DTBuilder {
-    Set<Instance> allInstances;
+    Set<Instances> allInstances;
     List<String> allAtts;
     int correctPreds = 0;
     int totalPreds = 0;
 
     // constructor
-    public DTBuilder(Set<Instance> allInstances, List<String> attriburtes) {
+    public DTBuilder(Set<Instances> allInstances, List<String> attriburtes) {
         this.allInstances = allInstances;
         this.allAtts = attriburtes;
 
     }
 
-    public DTNode buildTree(Set<Instance> instances, List<String> attributes) {
+    public DTNode buildTree(Set<Instances> instances, List<String> attributes) {
         if (instances.isEmpty()) {
             return new DTLeaf(mostCat(allInstances), mostCatoagories(allInstances));
         } else if (isPure(instances)) {
@@ -25,18 +25,18 @@ public class DTBuilder {
         }
     }
 
-    public DTNode chooseNode(Set<Instance> instances, List<String> attriburtes) {
-        Set<Instance> bestTSet = new HashSet<>();
-        Set<Instance> BestFSet = new HashSet<>();
+    public DTNode chooseNode(Set<Instances> instances, List<String> attriburtes) {
+        Set<Instances> bestTSet = new HashSet<>();
+        Set<Instances> BestFSet = new HashSet<>();
         String bestATT = "";
         double bestImp = Double.POSITIVE_INFINITY;
         for (int i = 0; i < allAtts.size(); i++) {
             if (!attriburtes.contains(allAtts.get(i))) {
                 continue;
             }
-            Set<Instance> trueInstances = new HashSet<>();
-            Set<Instance> falseInstances = new HashSet<>();
-            for (Instance instance : instances) {
+            Set<Instances> trueInstances = new HashSet<>();
+            Set<Instances> falseInstances = new HashSet<>();
+            for (Instances instance : instances) {
 
                 if (instance.getAtt(i)) {
                     trueInstances.add(instance);
@@ -59,10 +59,10 @@ public class DTBuilder {
         return new DTNode(bestATT, left, right);
     }
 
-    public double mostCatoagories(Set<Instance> instances) {
+    public double mostCatoagories(Set<Instances> instances) {
         int liveC = 0;
         int dieC = 0;
-        for (Instance instance : instances) {
+        for (Instances instance : instances) {
             if (instance.getCategory().equals("live")) {
                 liveC++;
             } else {
@@ -72,10 +72,10 @@ public class DTBuilder {
         return liveC > dieC ? (double) liveC / instances.size() : (double) dieC / instances.size();
     }
 
-    public String mostCat(Set<Instance> instances) {
+    public String mostCat(Set<Instances> instances) {
         int liveC = 0;
         int dieC = 0;
-        for (Instance instance : instances) {
+        for (Instances instance : instances) {
             if (instance.getCategory().equals("live")) {
                 liveC++;
             } else {
@@ -88,9 +88,9 @@ public class DTBuilder {
         return "die";
     }
 
-    public boolean isPure(Set<Instance> instances) {
+    public boolean isPure(Set<Instances> instances) {
         String category = instances.iterator().next().getCategory();
-        for (Instance instance : instances) {
+        for (Instances instance : instances) {
             if (!category.equals(instance.getCategory())) {
                 return false;
             }
@@ -98,19 +98,19 @@ public class DTBuilder {
         return true;
     }
 
-    public double computeImpur(Set<Instance> trues, Set<Instance> falses) {
+    public double computeImpur(Set<Instances> trues, Set<Instances> falses) {
         double dt = ((double) trues.size()) / (trues.size() + falses.size());
         double df = 1.0 - dt;
         return dt * calcADratio(trues) + df * calcADratio(falses);
 
     }
 
-    public double calcADratio(Set<Instance> instances) {
+    public double calcADratio(Set<Instances> instances) {
         if (instances.isEmpty()) {
             return 0;
         }
         int catTotals[] = new int[2];
-        for (Instance instance : instances) {
+        for (Instances instance : instances) {
             if (instance.getCategory().equals("live")) {
                 catTotals[0]++;
                 continue;

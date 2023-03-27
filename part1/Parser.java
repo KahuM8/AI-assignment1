@@ -10,8 +10,8 @@ import java.util.Scanner;
 public class Parser {
     public static void main(String[] args) throws IOException {
         int k = 3;
-        List<Wine> testWine = parse(new File("part1/wine-test"));
-        List<Wine> trainWine = parse(new File("part1/wine-training"));
+        List<Wine> testWine = parse(new File(args[0]));
+        List<Wine> trainWine = parse(new File(args[1]));
         normilize(testWine, trainWine);
         int correctPredictions = 0;
         int totalPredictions = 0;
@@ -141,12 +141,15 @@ public class Parser {
         }
         for (int i = 0; i < testWine.size(); i++) {
             for (int j = 0; j < testWine.get(i).attributes().length; j++) {
-                trainWine.get(i).attributes()[j] =
-                        (trainWine.get(i).attributes()[j] / (maxes[j] - mins[j]));
-                testWine.get(i).attributes()[j] =
-                        (testWine.get(i).attributes()[j] / (maxes[j] - mins[j]));
+                trainWine.get(i).attributes()[j] = (trainWine.get(i).attributes()[j] / (maxes[j] - mins[j]));
+                testWine.get(i).attributes()[j] = (testWine.get(i).attributes()[j] / (maxes[j] - mins[j]));
             }
         }
+    }
+
+    public record Wine(
+            float[] attributes,
+            int type) {
     }
 
 }
