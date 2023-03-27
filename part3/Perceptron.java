@@ -72,4 +72,6 @@ public class Perceptron {
     }
 
     // checking something with git 1
+
+    // checking something with git 2
 }
