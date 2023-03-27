@@ -32,7 +32,6 @@ public class Perceptron {
                         weights[i + 1] += instance.getFeature(i) * learningRate;
                     }
                 }
-
                 if (y == 1 && d == 0) {
                     weights[0] -= learningRate;
                     for (int i = 0; i < 34; i++) {
@@ -46,8 +45,8 @@ public class Perceptron {
 
             }
             if (count % 20 == 0) {
-                System.out.println(
-                        "Epoch " + count + ": bias = " + weights[0] + " Accuracy: " + test(instances, weights));
+                System.out.println("Epoch " + count + ": bias = " + weights[0] + " Accuracy: "
+                        + test(instances, weights));
             }
             count++;
         }
@@ -71,4 +70,6 @@ public class Perceptron {
         return (double) numCorrect / testInstances.size();
 
     }
+
+    // checking something with git 1
 }
