@@ -9,10 +9,12 @@ public class Perceptron {
     private List<Instance> tInstances;
 
     // constructor
-    public Perceptron(List<Instance> instances) {
+    public Perceptron(List<Instance> instances, List<Instance> sInstances, List<Instance> tInstances) {
         this.instances = instances;
 
         // split data
+        this.sInstances = sInstances;
+        this.tInstances = tInstances;
 
     }
 
@@ -90,7 +92,7 @@ public class Perceptron {
         }
         double learningRate = 0.1;
         int count = 0;
-        while (test(instances, weights) < 0.95 && count < 1000) {
+        while (count < 200) {
             for (Instance instance : sInstances) {
                 double output = weights[0]; // Bias term
                 for (int i = 0; i < 34; i++) {
@@ -110,10 +112,6 @@ public class Perceptron {
                     for (int i = 0; i < 34; i++) {
                         weights[i + 1] -= instance.getFeature(i) * learningRate;
                     }
-                }
-
-                if (test(instances, weights) > 0.95) {
-                    break;
                 }
 
             }
