@@ -7,6 +7,10 @@ public class Parser {
 
     public static void main(String[] args) {
 
+        if (args.length == 2) {
+            split(args);
+            return;
+        }
         if (args.length != 1) {
             System.out.println("Usage: java Parser.java <filename>");
             System.exit(1);
@@ -16,6 +20,34 @@ public class Parser {
         List<Instance> instances = new ArrayList<>();
         try {
             sc = new Scanner(new File(args[0]));
+            sc.nextLine();
+            while (sc.hasNextLine()) {
+                Scanner line = new Scanner(sc.nextLine());
+                List<Double> features = new ArrayList<>();
+                while (line.hasNextDouble()) {
+                    features.add(line.nextDouble());
+                }
+                String category = line.next();
+                instances.add(new Instance(category, features));
+            }
+            sc.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // train the perceptron
+        Perceptron p = new Perceptron(instances);
+        p.train();
+    }
+
+    // split data run
+    public static void split(String[] args) {
+        Scanner sc;
+        Scanner sc2;
+        List<Instance> instances = new ArrayList<>();
+        try {
+            sc = new Scanner(new File(args[0]));
+
             sc.nextLine();
             while (sc.hasNextLine()) {
                 Scanner line = new Scanner(sc.nextLine());
