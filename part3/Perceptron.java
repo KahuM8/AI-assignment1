@@ -92,7 +92,7 @@ public class Perceptron {
         }
         double learningRate = 0.1;
         int count = 0;
-        while (count < 200) {
+        while (count < 500) {
             for (Instance instance : sInstances) {
                 double output = weights[0]; // Bias term
                 for (int i = 0; i < 34; i++) {
