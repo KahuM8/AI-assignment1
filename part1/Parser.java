@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Parser {
     public static void main(String[] args) throws IOException {
-        int k = 3;
+        int k = Integer.parseInt(args[2]);
         List<Wine> testWine = parse(new File(args[0]));
         List<Wine> trainWine = parse(new File(args[1]));
         normilize(testWine, trainWine);
@@ -35,6 +35,7 @@ public class Parser {
                 }
             }
             if (predict(closestWines) + 1 == test.type()) {
+
                 correctPredictions++;
             }
             totalPredictions++;
@@ -150,6 +151,9 @@ public class Parser {
     public record Wine(
             float[] attributes,
             int type) {
+        public void report() {
+            System.out.println("Attributes: " + Arrays.toString(attributes));
+        }
     }
 
 }

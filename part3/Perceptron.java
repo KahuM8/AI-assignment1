@@ -52,6 +52,10 @@ public class Perceptron {
         System.out.println("Epoch " + count + ": bias = " + weights[0]);
 
         System.out.println("Accuracy: " + test(instances, weights));
+        System.out.println("Final Weights: ");
+        for (int i = 0; i < weights.length; i++) {
+            System.out.print(weights[i] + " ");
+        }
     }
 
     public double test(List<Instance> testInstances, double[] weights) {
@@ -66,6 +70,8 @@ public class Perceptron {
                 numCorrect++;
             }
         }
+        // print final weights
+
         return (double) numCorrect / testInstances.size();
 
     }

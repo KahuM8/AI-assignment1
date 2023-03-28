@@ -11,6 +11,16 @@ public class DTBuilder {
         this.allInstances = allInstances;
         this.allAtts = attriburtes;
 
+        // baseline predictor
+        for (Instances instance : allInstances) {
+            if (instance.getCategory().equals("live")) {
+                correctPreds++;
+            }
+            totalPreds++;
+        }
+
+        System.out.println("Baseline predictor accuracy: " + (double) correctPreds / totalPreds);
+
     }
 
     public DTNode buildTree(Set<Instances> instances, List<String> attributes) {
